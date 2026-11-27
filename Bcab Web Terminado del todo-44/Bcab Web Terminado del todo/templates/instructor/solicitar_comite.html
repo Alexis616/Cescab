@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpg" href="../static/img/logoSena.png"/>
+    <link rel="stylesheet" href="static/CSS/instructor/solicitar_comite.css">
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+    <script defer src="/static/JavaScript/instructor/solicitar_comite.js"></script>
+    <title>Solicitar Comité</title>
+</head>
+<body>
+<main id="centrar">
+
+    <section id="semi_circulo">
+        <figure><img id="foto_sena" src="../static/img/Tula blanca.png" alt="Logo Sena Blanco"></figure>
+        <h2 id="titulo">CESCAB</h2>
+    </section>
+   
+
+    <h2>Buscar Ficha</h2>
+    <a href="/home_instructor_solicitado_agendados">
+        <button id="botonRegresarSolicitudComite"><i class="lni lni-arrow-left"></i></button>
+    </a>
+    <div id="contenedorBuscar">
+        <form action="/buscar_ficha" id="barritaDeBuscar" method="post">
+            <input type="text" id="buscarFicha" name="buscarFicha" placeholder="Número de Ficha"  required>
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+    {% if busqueda_realizada %}
+        {% if fichas %}
+            <h2>Resultados de la Búsqueda:</h2>
+                    <table id="TablaresultadoBusqueda" border="1">
+                        <thead>
+                            <tr>
+                                <th>Número de Ficha</th>
+                                <th>Programa de Formación</th>
+                                <th>Nivel de Formación</th>
+                                <th>Modalidad</th>
+                                <th>Área</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ficha in fichas %}
+                                <tr>
+                                    <td>{{ ficha.numeroFicha }}</td>
+                                    <td>{{ ficha.programaFormacion }}</td>
+                                    <td>{{ ficha.nivel_formacion}}</td>
+                                    <td>{{ ficha.modalidad }}</td>
+                                    <td>{{ ficha.sectorPrograma }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+            {% else %}
+                <p>No se encontraron resultados.</p> 
+            {% endif %}
+        {% endif %}
+
+        <h2>Lista de Aprendices:</h2>
+
+        {% if busqueda_realizada %}
+            {% if aprendices %}
+                <form id="form_aprendices" action="/procesar_aprendices" method="post">
+                    <table id="tablaAprendices" border="1">
+                        <thead>
+                            <tr>
+                                <th>Seleccionar Aprendiz</th>
+                                <th>Tipo Documento</th>
+                                <th>Número Documento</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Teléfono</th>
+                                <th>Correo Electrónico</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for aprendiz in aprendices %}
+                                <tr>
+                                    <td>
+                                        <label class="custom-checkbox">
+                                            <input type="checkbox" name="check_{{ aprendiz.numeroDocumento }}" id="check_{{ aprendiz.numeroDocumento }}">
+                                            <span class="checkmark"></span>
+                                        </label>       
+                                    </td>
+                                    <td>{{ aprendiz.tipoDocumento }}</td>
+                                    <td>{{ aprendiz.numeroDocumento }}</td>
+                                    <td>{{ aprendiz.nombres }}</td>
+                                    <td>{{ aprendiz.apellidos }}</td>
+                                    <td>{{ aprendiz.telefono }}</td>
+                                    <td>{{ aprendiz.correo_electronico }}</td>
+                                    <td>{{ aprendiz.estado }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <br>
+                    <button id="enviarAprendices" type="submit">Enviar Aprendices Seleccionados</button>
+                </form>
+            {% else %}
+                <p>No hay aprendices registrados.</p>
+            {% endif %}
+        {% endif %}
+
+       
+
+</main>
+<!-- Modal sencillo -->
+
+  
+<div id="modalHistorial" class="modalHistorial oculto">
+    <div class="modal-contenido">
+        <div class="modal-header">
+            <h3>⚠️ Historial del Aprendiz</h3>
+            <span id="cerrarModal" class="cerrar-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div id="historial_modal_body">
+                <!-- Aquí va la información del historial -->
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="cancelarBtn" class="btn-cancelar">Cancelar</button>
+            <button id="continuarBtn" class="btn-continuar">Continuar de todos modos</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

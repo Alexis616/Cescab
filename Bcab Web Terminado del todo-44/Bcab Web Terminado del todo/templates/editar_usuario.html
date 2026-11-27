@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <link rel="stylesheet" href="../static/CSS/editar_usuario.css">
+<head>
+    <title>Editar Usuario</title>
+</head>
+<body>
+    <h1>Editar Usuario</h1>
+    <form action="/actualizar/{{ usuario.id }}" method="POST">
+        <label class="editar_label" for="">Nombre</label>
+        <input name="nombre" value="{{ usuario.nombre }}" required>
+        <label class="editar_label" for="">Apellido</label>
+        <input name="apellido" value="{{ usuario.apellido }}" required>
+        <label class="editar_label" for="">Cedula</label>
+        <input name="cedula" value="{{ usuario.cedula }}" required>
+        <label class="editar_label" for="">Correo</label>
+        <input name="correo_electronico" value="{{ usuario.correo_electronico }}" required>
+        <label class="editar_label" for="">Contraseña</label>
+        <input name="contrasena" type="password" placeholder="Dejar en blanco para no cambiar">
+        <label class="editar_label" for="">Telefono</label>
+        <input name="telefono" value="{{ usuario.telefono }}" required>
+        <label class="editar_label" for="">Fin contrato</label>
+        <input name="fecha_fin_contrato" type="date" value="{{ usuario.fecha_fin_contrato }}">
+        <label class="editar_label" for="">rol(instructor/coordinador)</label>
+        <select name="rol" id="" value="{{ usuario.rol }}">
+            <option >instructor</option>
+            <option >coordinador</option>
+        </select>
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+</html>

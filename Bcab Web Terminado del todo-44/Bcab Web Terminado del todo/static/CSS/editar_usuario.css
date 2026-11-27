@@ -1,0 +1,61 @@
+:root {
+    --azul_oscuro: #00324D;
+    --verde_sena: #39A900;
+    --amarillo: #FFDD00;
+    --gris_fondo: #DEDEDE;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--gris_fondo);
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: var(--azul_oscuro);
+    text-align: center;
+}
+
+form {
+    background-color: #fff;
+    padding: 25px;
+    border-left: 6px solid var(--azul_oscuro);
+    border-radius: 6px;
+    max-width: 90%;
+    margin: 30px auto;
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    gap: 15px;
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+input[type="date"] {
+    color: #333;
+}
+
+button {
+    grid-column: span 2;
+    padding: 12px;
+    background-color: var(--azul_oscuro);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+button:hover {
+    background-color: var(--verde_sena);
+}
+
+.editar_label{
+    color: var(--azul_oscuro);
+}

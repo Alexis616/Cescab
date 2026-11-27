@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap');
+
+:root{
+    --azul_cielo:#82DEF0;
+    --azul_oscuro: #00324D;
+    --amarillo_pastel: #FBFBE2;
+    --verde_sena:#39A900;
+    --amarillo_sena: #ffcf40ec;
+}
+
+* {
+    box-sizing: border-box;
+    transform: all 0.3s ease-in-out;
+    font-family: 'Work Sans', sans-serif;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-size: 14px;
+}
+
+.boton {
+    display: inline-block;
+    padding: 15px 30px;
+    margin-top: 20px;
+    font-size: 20px;
+    color: #fff;
+    background-color: var(--azul_oscuro);
+    text-align: center;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.boton:hover {
+    background-color: var(--amarillo_sena);
+    color: var(--azul_oscuro);
+}
+
+main#fondo {
+    min-height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+}
+
+#semi_circulo{
+    position: absolute;
+    background-color: var(--azul_oscuro);
+    transform: translate(0px);
+    height: 100px;
+    width: 100px;
+    border-radius: 0 0 90% ;
+    top:0;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+}
+
+#foto_sena{
+    width: 105px;
+    height: 75px;
+    transform: translate(-15px, -15px);
+}
+#recuadro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 150px;
+}
+
+#error {
+    font-size: 40px;
+}
+
+#mensaje_error {
+    margin: 100px 0;
+    font-size: 25px;
+}

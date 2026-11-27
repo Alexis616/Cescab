@@ -1,0 +1,489 @@
+:root {
+    --azul_oscuro: #00324D;
+    --verde_sena: #39A900;
+    --amarillo_sena: #ffcf40;
+    --azul_cielo:#82DEF0;
+    --fondo_claro: #f9f9f9;
+    --borde_claro: #ddd;
+    --texto_oscuro: #222;
+    --gris_fondo: #D9D9D9;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color:#D9D9D9;
+    color: var(--texto_oscuro);
+    width: 100%;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+
+h2 {
+    color: var(--azul_oscuro);
+    margin: 1.5rem 0 1rem;
+    text-align: center;
+}
+p{
+    text-align: center;
+}
+
+#form_aprendices {
+    background-color: var(--azul_oscuro);
+}
+
+button#botonRegresarSolicitudComite {
+    display: grid;
+    place-items: center;
+    padding: 0;
+    text-decoration: none;
+    background-color: var(--verde_sena);
+    color: white;
+    border-radius: 50%;
+    font-size: 40px;
+    cursor: pointer;
+    position: absolute;
+    left: 250px;
+    margin: 0;
+    height:70px ;
+    width: 70px;
+    border: none;
+    transform: translateX(-50%);
+}
+
+input[type="text"] {
+    padding: 0.5rem;
+    border: 1px solid var(--borde_claro);
+    border-radius: 4px;
+    width: 100%;
+    max-width: 300px;
+    margin-right: 1rem;
+}
+
+button {
+    padding: 0.6rem 1.2rem;
+    background-color: var(--verde_sena);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+#enviarAprendices {
+    position: absolute;
+    right: 20px;
+    margin: 10px 0;
+    font-size: 1.5em;
+}
+#contenedorBuscar {
+    background-color: var(--azul_oscuro);
+    height: 70px;
+    width: 440px;
+    margin: 0 auto;
+    border-radius:10px;
+    align-content: center;
+}
+
+#barritaDeBuscar{
+    padding: 16px;
+    
+}
+
+
+button:hover {
+   
+    color: black;
+}
+
+table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%; 
+  }
+  
+  th, td {
+    border: 1px solid black; 
+    text-align: center; 
+    padding: 8px; 
+    word-wrap: break-word; /* Ajusta el texto si es muy largo */
+  }
+  
+  td:last-child {
+    width: 20%; /* Ajusta el ancho de la última columna para equilibrar */
+  }
+  
+
+
+
+table th {
+    background-color: var(--azul_oscuro);
+    color: rgb(255, 255, 255);
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f0f8ff;
+}
+
+
+table tbody tr:nth-child(even) {
+    background-color: #82def0c6; /* Filas claras */
+    color: var(--texto_oscuro);
+}
+
+table tbody tr:nth-child(odd) {
+    background-color: var(--borde_claro); /* Filas azul oscuro */
+    color: var(--texto_oscuro); 
+    
+}
+
+#TablaresultadoBusqueda {
+    border-bottom: 5px solid var(--azul_oscuro);
+    border-right: 5px solid var(--azul_oscuro);
+    border-left: 5px solid var(--azul_oscuro);
+}
+
+/* Personalizacion de toda la tabla: */
+#tablaAprendices {
+    table-layout: auto;
+    font-size: 16px
+}
+
+#tablaAprendices th:nth-child(1), #tablaAprendices td:nth-child(1) {
+    width: 105px;
+    align-items: center;
+}
+
+#tablaAprendices th:nth-child(2), #tablaAprendices td:nth-child(2) {
+    width: 110px;
+    justify-content: center;
+}
+
+#tablaAprendices th:nth-child(3), #tablaAprendices td:nth-child(3) {
+    width: 130px;
+}
+
+#tablaAprendices th:nth-child(4), #tablaAprendices td:nth-child(4) {
+    width: 180px;
+}
+
+#tablaAprendices th:nth-child(5), #tablaAprendices td:nth-child(5) {
+    width: 220px;
+}
+
+#tablaAprendices th:nth-child(6), #tablaAprendices td:nth-child(6) {
+    width: 120px;
+}
+
+#tablaAprendices th:nth-child(7), #tablaAprendices td:nth-child(7) {
+    width: 335px;
+}
+
+.custom-checkbox input[type="checkbox"] {
+    height: 30px;
+    width: 30px;
+}
+
+#semi_circulo {
+    background-color: var(--azul_oscuro);
+    height: 70px;
+    width: 100%;
+}
+
+#semi_circulo img {
+    position: absolute;
+    left: 0;
+    height: 50px;
+    width: 50px;
+    top: 10px;
+}
+
+#semi_circulo p  {
+    display: block;
+    position: absolute;
+    right:  50px;
+    z-index: 2;
+    font-size: 25px;
+    color: #fff;
+}
+  
+#semi_circulo h2 {
+    color: #ffffff;
+    font-size: 35px;
+    position: absolute;
+    right: 3%;
+    margin: 7px 0 0 0 ;
+
+}
+
+img#foto_sena {
+    min-width: 105px;
+    min-height: 75px;
+    transform: translate(-15px, -15px);
+}
+
+#centrar {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+
+/* ===========================modal historial=========================== */
+
+
+
+
+.modalHistorial {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalHistorial.oculto {
+    display: none;
+}
+
+.modal-contenido {
+    background: white;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #d9534f;
+}
+
+.cerrar-modal {
+    font-size: 24px;
+    cursor: pointer;
+    color: #aaa;
+    
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 20px;
+    border-top: 1px solid #eee;
+}
+
+.btn-cancelar {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-continuar {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-cancelar:hover {
+    background-color: #5a6268;
+}
+
+.btn-continuar:hover {
+    background-color: #c82333;
+}
+
+#historial_modal_body ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#historial_modal_body li {
+    background-color: #f8f9fa;
+    margin: 5px 0;
+    padding: 10px;
+    border-left: 4px solid #dc3545;
+    border-radius: 4px;
+}
+/* Responsive */
+@media (max-width: 600px) {table,thead,tbody,th,td,tr {
+        display: block;
+    }
+
+    thead {
+        display: none;
+    }
+
+    tr {
+        margin-bottom: 1rem;
+        background-color: white;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    td {
+        display: flex;
+        justify-content: initial;
+        padding: 0.5rem 0;
+        border: none;
+    }
+
+    td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: var(--verde_sena);
+    }
+
+    table tbody tr:nth-child(even) {
+        background-color: var(--azul_oscuro); /* Filas claras */
+        color: white; /* Texto oscuro */
+        border: none;
+    }
+
+    #semi_circulo {
+        position: absolute;
+        background-color: var(--azul_oscuro);
+        height: 100px;
+        width: 100px;
+        border-radius: 0 0 90% ;
+        top:0;
+        display: flex;
+        justify-content: center;
+        align-items:center;
+        margin: 0 0 10px 0;
+    }
+
+    #foto_sena{
+        width: 105px;
+        height: 75px;
+        transform: translate(-15px, -15px);
+    }
+    #barritaDeBuscar{
+        padding: 5px;
+        transform: translateY(6px);
+    }
+    #semi_circulo h2{
+        display: none;
+    }
+
+    #contenedorBuscar{
+        transform: translateY(17px);
+        margin:20px 0;
+        height: 58px;
+        background: transparent;
+    }
+
+    main #contenedorBuscar{
+        justify-content: center;
+    }
+    input[type="text"] {
+        margin-right: 0.5rem;
+        border: 1px solid var(--texto_oscuro);
+
+    }
+
+    #tablaAprendices{
+        padding: 1px;
+        border: none;
+    }
+
+    #TablaresultadoBusqueda {
+        border: opx solid var(--azul_oscuro);
+        border-radius:10px;
+    }
+
+    #TablaresultadoBusqueda tbody{
+        padding: 1px;
+    }
+    #form_aprendices {
+        background-color:transparent;
+    }
+
+    table tbody tr:nth-child(2n+1) {
+        background-color: var(--borde_claro);
+        color: var(--texto_oscuro);
+        border: 1px solid var(--azul_oscuro);
+    }
+
+    table td {
+        padding: 0.75rem;
+        border: 1px solid transparent;
+        text-align: left;
+    }
+
+    button#botonRegresarSolicitudComite{
+        display: grid;
+        place-items: center;
+        padding: 0;
+        text-decoration: none;
+        background-color: var(--verde_sena);
+        color: white;
+        border-radius: 50%;
+        font-size: 40px;
+        cursor: pointer;
+        position: absolute;
+        margin: 0;
+        border: none;
+        transform: translateX(-50%);
+        top: 10px;
+        left: 90%;
+        height: auto;
+        width: auto;  
+    }
+
+    button#enviarAprendices {
+        position: sticky;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-1%);
+    }
+
+    .modal-contenido {
+        background: white;
+        border-radius: 8px;
+        max-width: 600px;
+        width: 90%;
+        overflow-y: auto;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        height: 100%;
+        left: 9px;
+        position: absolute;
+        transform: translateX(2%);
+    }
+}
+
+                                                 

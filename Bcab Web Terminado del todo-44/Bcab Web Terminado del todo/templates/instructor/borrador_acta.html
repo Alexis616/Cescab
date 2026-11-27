@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/jpg" href="../static/img/logoSena.png"/>
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/CSS/instructor/borrador_acta.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Reportes</title>
+   
+</head>
+<body>
+
+ <!--    <a href="/home_instructor_solicitado_agendados">
+        <button id="botonRegresarSolicitudComite"><i class="lni lni-arrow-left"></i></button>
+    </a> -->
+    <div class="container">
+        <h1>📊 Reporte de Comités Agendados</h1>
+        
+        <p class="descripcion">
+            Genera un documento Word de todos los comités en estado de agendado con tus quejas.
+        </p>
+        
+        <!-- Mostrar mensajes flash si existen -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'error' if category == 'error' else 'success' }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <a href="/generar_reporte" class="btn-generar" onclick="mostrarCarga()">
+            📄 Generar Borrador De Acta Instructor
+        </a>
+
+          <a href="/generar_reporte_coordinador" class="btn-generar" onclick="mostrarCarga()">
+            📄 Generar Borrador De Acta coordinador
+        </a>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Generando reporte... Por favor espera</p>
+        </div>
+        
+        <div class="info-box">
+            <h3>ℹ️ Información del Reporte</h3>
+            <ul>
+                <li><strong>Fuente:</strong> Borrador de actas de tus quejas</li>
+                <li><strong>Filtro:</strong> Solo comités con estado de agendado</li>
+                <li><strong>Formato:</strong> Documento Microsoft Word (.docx)</li>
+                <li><strong>Contenido:</strong> Tablas con información completa de comités</li>
+                <li><strong>Guardado:</strong> Escritorio > carpeta "reportes_comites"</li>
+                <li><strong>Descarga:</strong> También se descarga automáticamente</li>
+            </ul>
+            
+            <p><strong>📁 Ubicación:</strong> Los reportes se guardan en una carpeta llamada 
+            <code>reportes_comites</code> en tu Escritorio para fácil acceso posterior.</p>
+            
+            <p><strong>Nota:</strong> Solo se mostrarán los comités de las fichas donde 
+            apareces como quejoso y que tengan estado de agendado.</p>
+        </div>
+    </div>
+
+    <script>
+        function mostrarCarga() {
+            // Mostrar indicador de carga
+            document.getElementById('loading').style.display = 'block';
+            
+            // Deshabilitar el botón para evitar múltiples clicks
+            const boton = document.querySelector('.btn-generar');
+            boton.style.opacity = '0.6';
+            boton.style.pointerEvents = 'none';
+            
+            // Opcional: Ocultar loading después de un tiempo si no hay respuesta
+            setTimeout(function() {
+                document.getElementById('loading').style.display = 'none';
+                boton.style.opacity = '1';
+                boton.style.pointerEvents = 'auto';
+            }, 30000); // 30 segundos timeout
+        }
+        
+        // Resetear estado cuando la página carga
+        window.addEventListener('load', function() {
+            document.getElementById('loading').style.display = 'none';
+            const boton = document.querySelector('.btn-generar');
+            boton.style.opacity = '1';
+            boton.style.pointerEvents = 'auto';
+        });
+    </script>
+
+<div id="firmaDesarrolladores" style="display: none;" class="firma">
+    <h4>Análisis y Desarrollo de Software</h4>
+    <p>2618419</p>
+    <p>Andrés Felipe Arce Escobar</p>
+    <p>Wilmer Alexis Montoya Naranjo</p>
+    <img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png" alt="Icono programación" class="icono-programacion">
+</div>
+
+<button id="btnFirma" class="boton-firma"> ◀ / ▶ </button>
+
+
+<style>
+  .firma {
+position: fixed;
+bottom: 10px;
+right: 10px;
+background-color: #f4f4f4;
+border: 1px solid #ccc;
+padding: 15px;
+border-radius: 10px;
+box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+text-align: center;
+font-family: 'Segoe UI', sans-serif;
+z-index: 100;
+}
+
+.firma h4 {
+margin: 5px 0;
+font-weight: bold;
+}
+
+.firma p {
+margin: 2px 0;
+font-size: 14px;
+}
+
+.icono-programacion {
+width: 30px;
+height: 30px;
+margin-top: 8px;
+}
+
+.boton-firma {
+position: fixed;
+bottom: 10px;
+left: 10px;
+padding: 8px 12px;
+background-color: #00324D;
+color: white;
+border: none;
+border-radius: 8px;
+cursor: pointer;
+z-index: 100;
+}
+
+.boton-firma:hover {
+background-color: #0056b3;
+}
+
+</style>
+
+<script>
+const btnFirma = document.getElementById('btnFirma');
+const firma = document.getElementById('firmaDesarrolladores');
+
+btnFirma.addEventListener('click', function () {
+const visible = firma.style.display === 'block';
+firma.style.display = visible ? 'none' : 'block';
+btnFirma.textContent = visible ? '</>' : 'Ocultar';
+});
+</script>
+
+</body>
+</html>

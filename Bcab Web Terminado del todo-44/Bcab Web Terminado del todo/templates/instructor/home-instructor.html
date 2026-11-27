@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Instructor</title>
+    <link rel="stylesheet" href="../static/CSS/instructor/home-instructor.css">
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+    <link rel="icon" type="image/jpg" href="../static/img/logoSena.png"/>
+    <script src="../static/JavaScript/home-instructor.js" defer></script>
+    <script src="../static/JavaScript/cerrar-seccion.js"></script>
+</head>
+<body> 
+    <button id="side_boton" onclick="abrirSideMenu()"><img src="../static/img/image.png" style="z-index: -2;" alt=""></button>
+    <div id="side_menu">
+            <button href="javascript:void(0)" class="close_btn" onclick="cerrarSideMenu()">&times;</button>
+            <a class="conten_side" href="/manual_instructor">Manual de usuario  <i class="lni lni-book"></i></a>
+            <a class="conten_side" href="/manual_aprenidiz">Manual de aprendiz    <i class="lni lni-notepad"></i></a>
+            <a class="conten_side" href="/solicitar_comite">Generar queja  <i class="lni lni-hammer"></i></a>
+            <a class="conten_side" href="/word" >Borradores de acta <i class="lni lni-book"></i></a>
+            <a class="conten_side" href="/mostrar_cancelados" >Mostrar aprendices recomendados para cancelar <i class="lni lni-shovel"></i></a>
+            <a id="salir" href="/">Cerrar sesión <i class="lni lni-exit"></i></a>
+    </div>
+
+    <section id="semi_circulo">
+        <figure><img id="foto_sena" src="/static/img/Tula blanca.png" alt="Logo Sena Blanco"></figure>
+        <p id="perfil">{{ usuario }}</p>
+        <h2>CESCAB</h2>
+        <p>Administracion de comites - <strong>Instructor</strong></p>
+    </section>
+    
+
+    <div id="name_instru">
+        <p>Bienvenido a CESCAB</p>
+    </div>
+
+    <div id="button_container">
+        <button id="btn_agendados" class="button-selected" onclick="showAgendados()">Agendados</button>
+        <button id="btn_solicitados" class="button-default" onclick="showSolicitados()">Solicitados</button>
+    </div>
+
+    <!-- ==================================================AGENDADOS================================================== -->
+    <div id="conten_agendados" class="content-container" style="display: grid;">
+        <div id="conten_solicitudes_agendados">
+            {% if agendados %}
+                {% for fecha, aprendices in agendados.items() %}
+                    <div class="contenedor-agendados">
+                        <div class="agendado_primer_conten">
+                            <details>
+                                <summary>{{ fecha }}  ({{ aprendices|length }} aprendices) <i class="lni lni-chevron-down"></i></summary>
+                            
+                                <div class="modal-content">
+                                    <!-- Botón que abre el modal con los nombres de los aprendices -->
+                                    <div class="aprendices-nombres">
+                                        <button onclick="document.getElementById('modal_agendados_{{ loop.index }}').showModal()" class="btn-ver-aprendices">
+                                            Ver aprendices: 
+                                            {% for aprendiz in aprendices %}
+                                                {{ aprendiz[6] }}{% if not loop.last %}, {% endif %}
+                                            {% endfor %}
+                                        </button>
+                                    </div>
+
+                                    <!-- Modal con todos los aprendices del mismo grupo -->
+                                    <dialog class="miDialogo" id="modal_agendados_{{ loop.index }}">
+                                        <div class="modal-header">                                           
+                                            <button onclick="this.closest('dialog').close()" class="btn-cerrar">✕</button>
+                                        </div>
+                                        
+                                        <div class="modal-body">
+                                            {% for myconsulta in aprendices %}
+                                                <div class="aprendiz-info">
+                                                    <h4 class="titulo_aprendiz">Aprendiz: {{ myconsulta[6] }}</h4>
+                                                    <p class="identificador"><strong>INSTRUCTOR:</strong> {{ myconsulta[1] }}</p>
+                                                    <p><strong>INFO FALTA:</strong> {{ myconsulta[13] }} - art ({{myconsulta[19]}})</p>
+                                                    <p><strong>DESCRIPCION:</strong> {{ myconsulta[20] }}</p>
+                                                    <p><strong>DETALLE ART:</strong> {{ myconsulta[22] }}</p>
+                                                    <p><strong>CLASIFICACION:</strong> {{ myconsulta[10] }}</p>
+                                                    <p><strong>CALIFICACION:</strong> {{ myconsulta[14] }}</p>
+                                                    <p><strong>COMPETENCIA:</strong> {{ myconsulta[11] }}</p>
+                                                    <p><strong>RESULTADO:</strong> {{ myconsulta[12] }}</p>
+                                                    <p><strong>FICHA:</strong> {{ myconsulta[2] }}</p>
+                                                    <p><strong>PROGRAMA:</strong> {{ myconsulta[3] }}</p>
+                                                    <p><strong>FECHA DE QUEJA:</strong> {{ myconsulta[15] }}</p>
+                                                    <p><strong>FECHA/LUGAR AGENDACION:</strong> {{ myconsulta[16] }}-{{ myconsulta[21] }}</p>
+                                                    <p><strong>DATOS DE APRENDIZ:</strong>
+                                                        <br>- <strong>NOMBRE:</strong> {{ myconsulta[6] }}
+                                                        <br>- <strong>DOCUMENTO:</strong> {{ myconsulta[5] }}
+                                                        <br>- <strong>ESTADO:</strong> {{ myconsulta[7] }}
+                                                        <br>- <strong>CORREO:</strong> {{ myconsulta[8] }}
+                                                        <br>- <strong>NUMERO:</strong> {{ myconsulta[9] }}
+                                                    </p>
+                                                    {% if not loop.last %}<hr>{% endif %}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </dialog>
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="nohay">No hay comités agendados.</p>
+            {% endif %}
+        </div>
+    </div>
+    <!-- ======================================================FIN AGENDADOS====================================================== -->
+
+    <!-- =========================================================SOLICITADOS========================================================= -->
+    <div id="conten_solicitados" class="content-container" style="display: none;">
+        <div id="conten_solicitudes_solicitados">
+            {% if solicitados %}
+                {% for fecha, aprendices in solicitados.items() %}
+                    <div class="contenedor-solicitados">
+                        <div class="solicitado_primer_conten">
+                            <details>
+                                <summary>{{ fecha }}  ({{ aprendices|length }} aprendices) <i class="lni lni-chevron-down"></i></summary>
+                            
+                                <div class="modal-content">
+                                    <!-- Botón que abre el modal con los nombres de los aprendices -->
+                                    <div class="aprendices-nombres">
+                                        <button onclick="document.getElementById('modal_solicitados_{{ loop.index }}').showModal()" class="btn-ver-aprendices">
+                                            Ver aprendices: 
+                                            {% for aprendiz in aprendices %}
+                                                {{ aprendiz[6] }}{% if not loop.last %}, {% endif %}
+                                            {% endfor %}
+                                        </button>
+                                    </div>
+
+                                    <!-- Modal con todos los aprendices del mismo grupo -->
+                                    <dialog class="miDialogo" id="modal_solicitados_{{ loop.index }}">
+                                        <div class="modal-header">
+                                            <button onclick="this.closest('dialog').close()" class="btn-cerrar">✕</button>
+                                        </div>
+                                        
+                                        <div class="modal-body">
+                                            {% for myconsulta in aprendices %}
+                                                <div class="aprendiz-info">
+                                                    <h4 class="titulo_aprendiz">Aprendiz: {{ myconsulta[6] }}</h4>
+                                                    <p class="identificador"><strong>INSTRUCTOR:</strong> {{ myconsulta[1] }}</p>
+                                                    <!-- <p><strong>INFO FALTA:</strong> {{ myconsulta[13] }} - art ({{myconsulta[19]}})</p> -->
+                                                    <p><strong>DESCRIPCION:</strong> {{ myconsulta[20] }}</p>
+                                                    <!-- aca los quiero -->
+                                                    
+                                                    <h3>Fallas detectadas:</h3>
+                                                    <ul>
+                                                      {% for falla in fallas %}
+                                                        <li>
+                                                          {{ falla.capitulo }} {{ falla.articulo }} {{ falla.informacion }}
+                                                        </li>
+                                                      {% endfor %}
+                                                    </ul>
+                                                    
+
+
+
+                                                    <!-- ------------ -->
+                                                    <!-- <p><strong>DETALLE ART:</strong> {{ myconsulta[22] }}</p> -->
+                                                    <p><strong>CLASIFICACION:</strong> {{ myconsulta[10] }}</p>
+                                                    <p><strong>CALIFICACION:</strong> {{ myconsulta[14] }}</p>
+                                                    <p><strong>COMPETENCIA:</strong> {{ myconsulta[11] }}</p>
+                                                    <p><strong>RESULTADO:</strong> {{ myconsulta[12] }}</p>
+                                                    <p><strong>FICHA:</strong> {{ myconsulta[2] }}</p>
+                                                    <p><strong>PROGRAMA:</strong> {{ myconsulta[3] }}</p>
+                                                    <p><strong>FECHA DE QUEJA:</strong> {{ myconsulta[15] }}</p>
+                                                    <p><strong>DATOS DE APRENDIZ:</strong>
+                                                        <br>- <strong>NOMBRE:</strong> {{ myconsulta[6] }}
+                                                        <br>- <strong>DOCUMENTO:</strong> {{ myconsulta[5] }}
+                                                        <br>- <strong>ESTADO:</strong> {{ myconsulta[7] }}
+                                                        <br>- <strong>CORREO:</strong> {{ myconsulta[8] }}
+                                                        <br>- <strong>NUMERO:</strong> {{ myconsulta[9] }}
+                                                    </p>
+                                                    {% if not loop.last %}<hr>{% endif %}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </dialog>
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="nohay">No hay comités solicitados.</p>
+            {% endif %}
+        </div>
+    </div>
+    <!-- =====================================================FIN SOLICITADOS===================================================== -->
+
+    <script>
+        function abrirSideMenu() {
+            document.getElementById("side_menu").style.width = "250px";
+        }
+
+        function cerrarSideMenu() {
+            document.getElementById("side_menu").style.width = "0";
+        }
+
+        function checkWindowSize() {
+            if (window.innerWidth > 1100) {
+                document.getElementById("side_menu").style.width = "13%";
+            } else {
+                document.getElementById("side_menu").style.width = "0";
+            }
+        }
+
+        // Check the window size on page load
+        window.addEventListener('load', checkWindowSize);
+
+        // Check the window size when the window is resized
+        window.addEventListener('resize', checkWindowSize);   
+    </script> 
+
+<div id="firmaDesarrolladores" style="display: none;" class="firma">
+    <h4>Análisis y Desarrollo de Software</h4>
+    <p>2618419</p>
+    <p>Andrés Felipe Arce Escobar</p>
+    <p>Wilmer Alexis Montoya Naranjo</p>
+    <img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png" alt="Icono programación" class="icono-programacion">
+</div>
+
+<button id="btnFirma" class="boton-firma"> ◀ / ▶ </button>
+
+
+<style>
+  .firma {
+position: fixed;
+bottom: 10px;
+right: 10px;
+background-color: #f4f4f4;
+border: 1px solid #ccc;
+padding: 15px;
+border-radius: 10px;
+box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+text-align: center;
+font-family: 'Segoe UI', sans-serif;
+z-index: 100;
+}
+
+.firma h4 {
+margin: 5px 0;
+font-weight: bold;
+}
+
+.firma p {
+margin: 2px 0;
+font-size: 14px;
+}
+
+.icono-programacion {
+width: 30px;
+height: 30px;
+margin-top: 8px;
+}
+
+.boton-firma {
+position: fixed;
+bottom: 10px;
+left: 10px;
+padding: 8px 12px;
+background-color: #00324D;
+color: white;
+border: none;
+border-radius: 8px;
+cursor: pointer;
+z-index: 100;
+}
+
+.boton-firma:hover {
+background-color: #0056b3;
+}
+
+</style>
+
+<script>
+const btnFirma = document.getElementById('btnFirma');
+const firma = document.getElementById('firmaDesarrolladores');
+
+btnFirma.addEventListener('click', function () {
+const visible = firma.style.display === 'block';
+firma.style.display = visible ? 'none' : 'block';
+btnFirma.textContent = visible ? '</>' : 'Ocultar';
+});
+</script>
+</body>
+</html>

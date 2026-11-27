@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap');
+
+*{
+  box-sizing: border-box;
+  transition: all 0.3s ease-in-out;
+  font-family: 'Work Sans', sans-serif;  
+}
+body{
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background-image: url("/static/img/fondo.jpeg");
+  background-size: cover;
+  background-position: center;
+}
+
+h2 {
+  margin: 0;
+}
+
+form {
+  box-shadow: 0px 0px 20px rgb(0, 0, 0);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 20px;
+  width: 300px;
+}
+
+#titulo_del_programa{
+  display: flex;
+  place-content: center;
+  place-items: center;
+  position: absolute;
+  top: 30px;
+  z-index: 1000;
+  flex-direction: column;
+}
+
+#titulo{
+  padding:1px;
+  position: absolute;
+  font-size: 45px;
+  color: aliceblue;
+  margin: 0 0 0 100px;
+}
+img.logo {
+  display: block;
+  width: 180px;
+  height: auto;
+  margin: 0 190px 0 0;
+}
+
+#texto_iniciar_sesion {
+  align-items: center;
+  margin-bottom: 20px;
+  display: flex;
+  place-content: center;
+}
+
+input[type="email"],
+input[type="password"] {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  font-family: 'Work Sans', sans-serif;
+}
+
+input[type="submit"] {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #00324D;
+  color: rgb(255, 255, 255);
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 10px;
+}
+
+input[type="submit"]:hover {
+  background-color:#00324D
+
+}
+
+.forgot-password {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.forgot-password a {
+  color: #00324D;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.contenedor{
+  height: 100vh;
+  width: 100%;
+  display: grid;
+  place-items: center;
+}
+
+#mostrar{
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: none;
+  background: transparent;
+}
+#gif{
+  display: none;
+  z-index: 10;
+  top: 0;
+  left: 500px;
+  position: absolute;
+
+}
+@media (max-width: 768px) {
+  
+  #gif{
+    display: none;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    position: absolute;
+  
+  }
+}

@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap');
+
+:root{
+    --azul_cielo:#82DEF0;
+    --azul_oscuro: #00324D;
+    --amarillo_pastel: #FBFBE2;
+    --verde_sena:#39A900;
+    --amarillo_sena: #ffcf40ec;
+}
+
+* {
+    box-sizing: border-box;
+    transform: all 0.3s ease-in-out;
+    font-family: 'Work Sans', sans-serif;
+}
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+figure img {
+    margin: 0;
+    width: 100%;
+}
+body {
+    font-size: 14px;
+    position: relative;
+}
+
+a {
+    text-decoration: none;
+}
+
+figure#sena img {
+    margin-left: 200px;
+    width: 200px;
+    height: 200px;
+}
+#todo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}   
+
+    
+#boton_imprimir {
+    padding: 0;
+    position: fixed;
+    bottom: 20px; 
+    border: none;
+    left: 90%;
+    bottom: 300px;
+    transform: translateX(-50%);
+    height:20px ;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+}
+#boton_imprimir i:hover {
+    background-color: var(--amarillo_sena);
+    color: var(--azul_oscuro);
+    transition: 0.2s ease-in-out;
+}
+#boton_imprimir i{
+    background-color: #00324D;
+    color: #fff;
+    font-size: 3em;
+    border-radius: 12px;
+    padding: 15px;
+}
+
+#boton_home {
+    padding: 0;
+    position: fixed;
+    bottom: 20px; 
+    border: none;
+    right: 90%;
+    bottom: 300px;
+    transform: translateX(-50%);
+    height:20px ;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+}
+#boton_home i:hover {
+    background-color: var(--amarillo_sena);
+    color: var(--azul_oscuro);
+    transition: 0.2s ease-in-out;
+}
+#boton_home i{
+    background-color: #00324D;
+    color: #fff;
+    font-size: 3em;
+    border-radius: 12px;
+    padding: 15px;
+}
+@media print {
+    button {
+        display: none !important;
+    }
+
+    a {
+        display: none !important;
+    }
+}

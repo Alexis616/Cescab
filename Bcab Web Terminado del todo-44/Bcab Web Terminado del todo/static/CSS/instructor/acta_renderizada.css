@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap');
+
+:root{
+    --azul_cielo:#82DEF0;
+    --azul_oscuro: #00324D;
+    --amarillo_pastel: #FBFBE2;
+    --verde_sena:#39A900;
+    --amarillo_sena: #ffcf40ec;
+}
+
+* {
+    box-sizing: border-box;
+    transform: all 0.3s ease-in-out;
+    font-family: 'Work Sans', sans-serif;
+}
+body, html {
+    margin: 0;
+    padding: 0;
+    background-size: cover;
+    background-position: center;
+}
+
+figure img {
+    margin: 0;
+    width: 100%;
+}
+body {
+    font-size: 14px;
+    position: relative;
+}
+
+main#fondo {
+    background-color: #fff;
+    width: 100%;
+    height: auto;
+}
+
+#acta-comite {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+}
+
+#semi_circulo{
+    position: absolute;
+    background-color: var(--azul_oscuro);
+    transform: translate(0px);
+    height: 100px;
+    width: 100px;
+    border-radius: 0 0 90% ;
+    top:0;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+}
+
+#foto_sena{
+    width: 105px;
+    height: 75px;
+    transform: translate(-15px, -15px);
+}
+
+#boton-imprimir {
+    background-color: var(--azul_oscuro);
+    padding: 20px;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    position: fixed;
+    bottom: 300px;
+    right: 50px;
+}
+
+#boton-editar {
+    background-color: var(--azul_oscuro);
+    padding: 20px 25px;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    position: fixed;
+    bottom: 300px;
+    left: 50px;
+}
+
+#boton-imprimir #boton-editar i {
+    display: flex;
+    justify-content: space-between;
+}
+
+#boton-imprimir:hover {
+    background-color: var(--amarillo_sena);
+    color: var(--azul_oscuro);
+    transition: 0.2s ease-in-out;
+}
+#boton-editar:hover {
+    background-color: var(--amarillo_sena);
+    color: var(--azul_oscuro);
+    transition: 0.2s ease-in-out;
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprendices Seleccionados</title>
+    <link rel="stylesheet" href="static/CSS/instructor/aprendices_seleccionados.css">
+    <link rel="icon" type="image/jpg" href="../static/img/logoSena.png"/>
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+</head>
+<body>     
+    
+    <section id="semi_circulo">
+        <figure><img id="foto_sena" src="../static/img/Tula blanca.png" alt="Logo Sena Blanco"></figure>
+    </section>
+    <h1 class="solicitarQuejaTexto">Solicitar Queja</h1>
+    <h1 class="acuerdo">Según Acuerdo 007 del 2012</h1>
+
+    <div class="barra-progreso">
+        <div class="paso-barra activo" id="indicador-paso-1">1</div>
+        <div class="linea-barra"></div>
+        <div class="paso-barra" id="indicador-paso-2">2</div>
+    </div>
+
+    <div id="paso-1" class="paso activo">
+        <h2>Aprendices seleccionados:</h2>
+        <table id="tablaAprendices" border="1">
+            <thead>
+                <tr id="contenidoTablaAprendices">
+                    <th>ploplo</th>
+                    <th>Estado</th> 
+                    <th>Clasificación</th>
+                    <th>Calificación</th>
+                    <th>Fase del proyecto formativo</th>
+                    <th>Competencia</th>
+                    <th>Resultado</th>
+                </tr>
+            </thead>
+            <tbody id="tbodyAprendicesCompetencias"></tbody>
+        </table>
+        <a href="/solicitar_comite">
+            <button id="botonRegresarSolicitudComite"><i class="lni lni-arrow-left"></i></button>
+        </a>
+        
+        <button id="btnSiguientePaso" class="boton-activo">SIGUIENTE</button>
+    </div>
+
+    <div id="paso-2" class="paso">
+        <h2>Tabla de los Artículos</h2>
+        <table id="tablaArticulosPersonalizar" border="1">
+            <thead>
+                <tr>
+                    <th>Nombre del Aprendiz</th>
+                    <th>Deberes del Aprendiz. Articulo 9</th>
+                    <th>Prohibiciones. Articulo 10</th>
+                    <th>Otro. Articulo 22</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody id="tablaArticulos"></tbody>
+        </table>
+        <button id="btnAtrasPaso" class="boton-activo">REGRESAR</button>
+        <button id="solicitar_comite_funcion" class="boton-activo">Solicitar comité</button>
+    </div>
+
+    <div id="modalDescripcion" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar" id="cerrarModal">&times;</span>
+            <h2>Agrega una breve descripción de su queja</h2>
+            <textarea id="descripcionInput" placeholder="Escribe la descripción que presenta frente al aprendiz..."></textarea>
+            <button id="guardarDescripcion">Guardar</button>
+        </div>
+    </div>
+ 
+    <script src="static/JavaScript/instructor/aprendices_seleccionados.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home coordi</title>
+    <link rel="icon" type="image/jpg" href="../static/img/logoSena.png"/>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../static/CSS/coordinador/hola.css">
+    
+    <script src="../static/javaScript/validaFecha.js"></script>
+    <script src="../static/javaScript/cerrar-seccion.js"></script>
+    
+    
+</head>
+
+<body>
+    <main id="caja_superior"> 
+        <button id="side_boton" onclick="abrirSideMenu()"><img src="../static/img/image.png" alt=""></button>
+
+        <!-- Side menu -->
+        <div id="side_menu">
+            <button href="javascript:void(0)" class="close_btn" onclick="cerrarSideMenu()">&times;</button>
+            <a class="conten_side" href="/manual_coordinador">Manual de usuario  <i class="lni lni-book"></i></a>
+            <a class="conten_side" href="/manual_aprenidiz">Manual de aprendiz    <i class="lni lni-notepad"></i></a>
+            <button id="toggleSelection" class="toggle-btn" onclick="toggleSelectionMode()">
+                🎯 Seleccionar Múltiples Lotes
+            </button>
+            <div id="selectionCounter" class="selection-counter" onclick="openBatchDialog()">
+                0 lotes seleccionados
+            </div>
+            <a id="salir" href="">Cerrar sesión <i class="lni lni-exit"></i></a>
+        </div>
+
+        <a id="ir_agendados" href="/mostrar_agendados">Ver agendados <img src="../static/img/calendario negro.png" alt=""></a>
+
+        <h3>SOLICITADOS</h3>
+
+        <section id="semi_circulo">
+            <img src="/static/img/Tula blanca.png" alt="">
+            <p id="perfil">{{ usuario }}</p>
+            <h2>CESCAB</h2>
+            <p>Administracion de Comites - <strong>Coordinador</strong></p>
+        </section>
+
+        
+
+
+        <!-- Dialog para agendar múltiples lotes -->
+        <dialog id="batchDialog" class="batch-form">
+            <div class="dialog-header">
+
+                <button class="dialog-close-btn" onclick="closeBatchDialog()" type="button">✕</button>
+            </div>
+            
+            <div id="selectedLotes" class="selected-lotes">
+                <h4>Lotes Seleccionados:</h4>
+                <div id="selectedList"></div>
+            </div>
+            
+            <form id="multipleScheduleForm" onsubmit="agendarMultiples(event)">
+                <div class="form-group">
+                    <label for="fechaMultiple">📅 Fecha y Hora:</label>
+                    <input type="datetime-local" id="fechaMultiple" name="fecha" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="lugarMultiple">📍 Lugar/Enlace:</label>
+                    <input type="text" id="lugarMultiple" name="lugar" placeholder="Ej: Ambiente 302 o https://meet.google.com/..." required>
+                </div>
+                
+                <div class="batch-actions">
+                    <button type="submit" class="btn-agendar-multiple">
+                        🚀 Agendar Todos los Lotes Seleccionados
+                    </button>
+                    
+                </div>
+            </form><button type="button" class="btn-denegar-multiple" onclick="denegarMultiples()">
+                        ❌ Denegar Lotes Seleccionados
+                    </button>
+        </dialog>
+
+        <div id="conten_solicitudes">
+            {% if solicitud %}
+                {% for fecha, aprendices in solicitud.items() %}
+                    <div class="solicitud" data-lote-id="{{ loop.index }}" data-fecha="{{ fecha }}">
+                        <div class="selection-checkbox" onclick="toggleLoteSelection(this)"></div>
+                        <details>
+                            <summary>{{ fecha }} ({{ aprendices|length }} aprendices) <i class="lni lni-chevron-down"></i></summary>
+                         
+                            <div class="modal-content">
+                                <!-- Botón que abre el modal con los nombres de los aprendices -->
+                                <div class="aprendices-nombres">
+                                    <button onclick="document.getElementById('modal_{{ loop.index }}').showModal()" class="btn-ver-aprendices">
+                                        Ver aprendices: 
+                                        {% for aprendiz in aprendices %}
+                                            {{ aprendiz[6] }}{% if not loop.last %}, {% endif %}
+                                        {% endfor %}
+                                    </button>
+                                </div>
+
+                                <!-- Modal con todos los aprendices del mismo grupo -->
+                                <dialog class="miDialogo" id="modal_{{ loop.index }}">
+                                    <div class="modal-header">
+                                        <button onclick="this.closest('dialog').close()" class="btn-cerrar">✕</button>
+                                    </div>
+                                    
+                                    <div class="modal-body">
+                                        {% for myconsulta in aprendices %}
+                                            <div class="aprendiz-info">
+                                                <h4>Aprendiz: {{ myconsulta[6] }}</h4>
+                                                <p class="identificador"><strong>INSTRUCTOR:</strong> {{ myconsulta[1] }}</p>
+                                                <p><strong>INFO FALTA:</strong> {{ myconsulta[13] }} - art ({{myconsulta[19]}})</p>
+                                                <p><strong>DESCRIPCION:</strong> {{ myconsulta[20] }}</p>
+                                                <p><strong>DETALLE ART:</strong> {{ myconsulta[22] }}</p>
+                                                <p><strong>CLASIFICACION:</strong> {{ myconsulta[10] }}</p>
+                                                <p><strong>CALIFICACION:</strong> {{ myconsulta[14] }}</p>
+                                                <p><strong>COMPETENCIA:</strong> {{ myconsulta[11] }}</p>
+                                                <p><strong>RESULTADO:</strong> {{ myconsulta[12] }}</p>
+                                                <p><strong>FICHA:</strong> {{ myconsulta[2] }}</p>
+                                                <p><strong>PROGRAMA:</strong> {{ myconsulta[3] }}</p>
+                                                <p><strong>FECHA DE QUEJA:</strong> {{ myconsulta[15] }}</p>
+                                                <p><strong>DATOS DE APRENDIZ:</strong>
+                                                    <br>- <strong>NOMBRE:</strong> {{ myconsulta[6] }}
+                                                    <br>- <strong>DOCUMENTO:</strong> {{ myconsulta[5] }}
+                                                    <br>- <strong>ESTADO:</strong> {{ myconsulta[7] }}
+                                                    <br>- <strong>CORREO:</strong> {{ myconsulta[8] }}
+                                                    <br>- <strong>NUMERO:</strong> {{ myconsulta[9] }}
+                                                </p>
+                                                {% if not loop.last %}<hr>{% endif %}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </dialog>
+
+                                <!-- Formulario para agendar todo el lote individualmente -->
+                                <div class="acciones-lote">
+                                    <form id="form_agendar_lote_{{ loop.index }}" action="/agendado_lote" method="post">
+                                        <!-- IDs de todos los comités del lote -->
+                                        {% for myconsulta in aprendices %}
+                                            <input type="hidden" name="comite_ids" value="{{ myconsulta[0] }}">
+                                        {% endfor %}
+                                        <input id="validaFecha" type="datetime-local" name="agendar_fecha" required>
+                                        <input id="lugar/enlace" type="text" placeholder="Lugar/Enlace" name="lugar/enlace">
+                                        <button id="me_agenda" type="submit" class="btn-agendar-lote">Agendar todo el lote ({{ aprendices|length }} comités)</button>
+                                    </form>
+                                    
+                                    <!-- Botón para denegar todo el lote -->
+                                    <form action="/rechazar_lote" method="post" style="display: inline;">
+                                        {% for myconsulta in aprendices %}
+                                            <input type="hidden" name="comite_ids" value="{{ myconsulta[0] }}">
+                                        {% endfor %}
+                                        <button type="submit" class="btn-denegar-lote" onclick="return confirm('¿Estás seguro de denegar todo el lote?')">
+                                            Denegar lote completo
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="nohay">No hay comités solicitados.</p>
+            {% endif %}
+        </div>
+
+        <script>
+            // Variables globales para la selección múltiple
+            let isSelectionMode = false;
+            let selectedLotes = new Set();
+            let lotesData = new Map(); // Para almacenar los datos de cada lote
+            
+            // Inicializar datos de lotes
+            function initializeLotesData() {
+                const solicitudes = document.querySelectorAll('.solicitud[data-lote-id]');
+                solicitudes.forEach(solicitud => {
+                    const loteId = solicitud.dataset.loteId;
+                    const fecha = solicitud.dataset.fecha;
+                    const aprendicesCount = solicitud.querySelector('summary').textContent.match(/\((\d+) aprendices\)/)?.[1] || '0';
+                    
+                    // Obtener IDs de comités de los inputs hidden
+                    const comiteIds = Array.from(solicitud.querySelectorAll('input[name="comite_ids"]')).map(input => input.value);
+                    
+                    lotesData.set(loteId, {
+                        fecha,
+                        aprendicesCount,
+                        comiteIds,
+                        summary: solicitud.querySelector('summary').textContent
+                    });
+                });
+            }
+            
+            function toggleSelectionMode() {
+                isSelectionMode = !isSelectionMode;
+                const toggleBtn = document.getElementById('toggleSelection');
+                const checkboxes = document.querySelectorAll('.selection-checkbox');
+                const solicitudes = document.querySelectorAll('.solicitud');
+                
+                if (isSelectionMode) {
+                    toggleBtn.textContent = '❌ Cancelar Selección';
+                    toggleBtn.classList.add('active');
+                    
+                    checkboxes.forEach(cb => cb.classList.add('show'));
+                    solicitudes.forEach(sol => sol.classList.add('selectable'));
+                    
+                    document.getElementById('selectionCounter').style.display = 'block';
+                } else {
+                    toggleBtn.textContent = '🎯 Seleccionar Múltiples Lotes';
+                    toggleBtn.classList.remove('active');
+                    
+                    checkboxes.forEach(cb => {
+                        cb.classList.remove('show', 'checked');
+                    });
+                    solicitudes.forEach(sol => {
+                        sol.classList.remove('selectable', 'selected');
+                    });
+                    
+                    document.getElementById('selectionCounter').style.display = 'none';
+                    document.getElementById('batchForm').style.display = 'none';
+                    
+                    selectedLotes.clear();
+                    updateCounter();
+                }
+            }
+            
+            function toggleLoteSelection(checkbox) {
+                if (!isSelectionMode) return;
+                
+                const solicitud = checkbox.closest('.solicitud');
+                const loteId = solicitud.dataset.loteId;
+                
+                if (selectedLotes.has(loteId)) {
+                    selectedLotes.delete(loteId);
+                    checkbox.classList.remove('checked');
+                    solicitud.classList.remove('selected');
+                } else {
+                    selectedLotes.add(loteId);
+                    checkbox.classList.add('checked');
+                    solicitud.classList.add('selected');
+                }
+                
+                updateCounter();
+            }
+            
+            function updateCounter() {
+                const counter = document.getElementById('selectionCounter');
+                counter.textContent = `${selectedLotes.size} lotes seleccionados - Click para agendar`;
+            }
+            
+            function openBatchDialog() {
+                if (selectedLotes.size === 0) {
+                    alert('No hay lotes seleccionados');
+                    return;
+                }
+                
+                updateSelectedList();
+                document.getElementById('batchDialog').showModal();
+            }
+            
+            function closeBatchDialog() {
+                document.getElementById('batchDialog').close();
+            }
+            
+            function updateSelectedList() {
+                const selectedList = document.getElementById('selectedList');
+                selectedList.innerHTML = '';
+                
+                selectedLotes.forEach(loteId => {
+                    const loteData = lotesData.get(loteId);
+                    if (loteData) {
+                        const loteItem = document.createElement('div');
+                        loteItem.className = 'lote-item';
+                        loteItem.textContent = loteData.summary;
+                        selectedList.appendChild(loteItem);
+                    }
+                });
+            }
+            
+            function agendarMultiples(event) {
+    event.preventDefault();
+
+    const fecha = document.getElementById('fechaMultiple').value;
+    const lugar = document.getElementById('lugarMultiple').value;
+
+    if (selectedLotes.size === 0) {
+        alert('No hay lotes seleccionados');
+        return;
+    }
+
+    // Recopilar todos los IDs de comités de los lotes seleccionados
+    let allComiteIds = [];
+    selectedLotes.forEach(loteId => {
+        const loteData = lotesData.get(loteId);
+        if (loteData) {
+            allComiteIds = allComiteIds.concat(loteData.comiteIds);
+        }
+    });
+
+    // Eliminar duplicados de los comiteIds
+    allComiteIds = [...new Set(allComiteIds)]; // Esto eliminará cualquier ID de comité duplicado
+
+    // Crear formulario dinámico para enviar al servidor
+    const form = document.createElement('form');
+    form.method = 'post';
+    form.action = '/agendado_lote_multiple'; // Nueva ruta para manejar múltiples lotes
+
+    // Agregar IDs de comités sin duplicados
+    allComiteIds.forEach(id => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'comite_ids';
+        input.value = id;
+        form.appendChild(input);
+    });
+
+    // Agregar fecha
+    const fechaInput = document.createElement('input');
+    fechaInput.type = 'hidden';
+    fechaInput.name = 'agendar_fecha';
+    fechaInput.value = fecha;
+    form.appendChild(fechaInput);
+
+    // Agregar lugar
+    const lugarInput = document.createElement('input');
+    lugarInput.type = 'hidden';
+    lugarInput.name = 'lugar/enlace';
+    lugarInput.value = lugar;
+    form.appendChild(lugarInput);
+
+    document.body.appendChild(form);
+    form.submit();
+
+    // Cerrar el dialog
+    closeBatchDialog();
+}
+
+                
+             
+            
+            function denegarMultiples() {
+                if (selectedLotes.size === 0) {
+                    alert('No hay lotes seleccionados');
+                    return;
+                }
+                
+                if (!confirm(`¿Estás seguro de denegar ${selectedLotes.size} lotes seleccionados?`)) {
+                    return;
+                }
+                
+                // Recopilar todos los IDs de comités de los lotes seleccionados
+                let allComiteIds = [];
+                selectedLotes.forEach(loteId => {
+                    const loteData = lotesData.get(loteId);
+                    if (loteData) {
+                        allComiteIds = allComiteIds.concat(loteData.comiteIds);
+                    }
+                });
+                
+                // Crear formulario dinámico para enviar al servidor
+                const form = document.createElement('form');
+                form.method = 'post';
+                form.action = '/rechazar_lote_multiple'; // Nueva ruta para manejar múltiples rechazos
+                
+                // Agregar IDs de comités
+                allComiteIds.forEach(id => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'comite_ids';
+                    input.value = id;
+                    form.appendChild(input);
+                });
+                
+                document.body.appendChild(form);
+                form.submit();
+            }
+            
+            // Permitir selección haciendo clic en toda la solicitud
+            document.addEventListener('click', function(e) {
+                if (!isSelectionMode) return;
+                
+                const solicitud = e.target.closest('.solicitud');
+                if (solicitud && !e.target.closest('details') && !e.target.closest('.selection-checkbox')) {
+                    const checkbox = solicitud.querySelector('.selection-checkbox');
+                    toggleLoteSelection(checkbox);
+                }
+            });
+            
+            // Funciones originales del menú lateral
+            function abrirSideMenu() {
+                document.getElementById("side_menu").style.width = "250px";
+            }
+    
+            function cerrarSideMenu() {
+                document.getElementById("side_menu").style.width = "0";
+            }
+            
+            function checkWindowSize() {
+                if (window.innerWidth > 1100) {
+                    document.getElementById("side_menu").style.width = "13%";
+                } else {
+                    document.getElementById("side_menu").style.width = "0";
+                }
+            }
+    
+            // Inicializar cuando se carga la página
+            window.addEventListener('load', function() {
+                checkWindowSize();
+                initializeLotesData();
+            });
+    
+            window.addEventListener('resize', checkWindowSize);
+        </script>      
+        
+        <div id="barra_botones">
+            <a href="/mostrar_agendados">Ver agendados</a>
+            <img src="/static/img/calendarioVerde.png" alt="">
+        </div>
+    </main>
+
+
+
+    <div id="firmaDesarrolladores" style="display: none;" class="firma">
+        <h4>Análisis y Desarrollo de Software</h4>
+        <p>2618419</p>
+        <p>Andrés Felipe Arce Escobar</p>
+        <p>Wilmer Alexis Montoya Naranjo</p>
+        <img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png" alt="Icono programación" class="icono-programacion">
+    </div>
+    
+    <button id="btnFirma" class="boton-firma"> ◀ / ▶ </button>
+    
+    
+    <style>
+      .firma {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+    z-index: 100;
+    }
+    
+    .firma h4 {
+    margin: 5px 0;
+    font-weight: bold;
+    }
+    
+    .firma p {
+    margin: 2px 0;
+    font-size: 14px;
+    }
+    
+    .icono-programacion {
+    width: 30px;
+    height: 30px;
+    margin-top: 8px;
+    }
+    
+    .boton-firma {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    padding: 8px 12px;
+    background-color: #00324D;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 100;
+    }
+    
+    .boton-firma:hover {
+    background-color: #0056b3;
+    }
+    
+    </style>
+    
+    <script>
+    const btnFirma = document.getElementById('btnFirma');
+    const firma = document.getElementById('firmaDesarrolladores');
+    
+    btnFirma.addEventListener('click', function () {
+    const visible = firma.style.display === 'block';
+    firma.style.display = visible ? 'none' : 'block';
+    btnFirma.textContent = visible ? '</>' : 'Ocultar';
+    });
+    </script>
+</body>
+</html>

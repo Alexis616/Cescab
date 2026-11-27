@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/CSS/login.css">
+    <link rel="icon" type="image/jpg" href="../static/img/logoSena.png"/>
+    <script src="../static/JavaScript/control de las flechas.js"></script>
+    
+
+    <title>CESCAB</title>
+</head>
+<body>
+    <body>
+        <div class="contenedor">
+            <button id="mostrar"> </button>
+            <div id="titulo_del_programa">
+              <figure>
+                  <img class="logo" src="../static/img/Tula blanca.png" alt="Logo">
+                </figure>
+                <h2 id="titulo">CESCAB</h2>
+            </div>
+            
+                <form action="/login"method="POST">
+                    <h2 id="texto_iniciar_sesion">Iniciar sesión</h2>
+                    <h4>{{error1}}</h4>
+                    <h4>{{error2}}</h4>
+                    <input type="email" name="correo_enviado" id="correo_enviado" placeholder="Correo Electronicó" inputmode="email" required>
+                    <input type="password" name="contrasena" id="contrasena" placeholder="Contraseña" required>
+                    <input type="submit" value="Ingresar">
+                    <div class="forgot-password">
+                    <a href="/recuperar">¿Olvidaste tu contraseña?</a>
+                    </div>
+                </form>
+                <div>
+                    <img id="gif" src="https://media1.tenor.com/m/ce1sLbXLif8AAAAd/la-roca.gif" alt="">
+                    <h1 id="texto" style="display: none;">EEeeeeeeehhh</h1>
+                  </div>
+        </div>
+
+            <script>
+                document.getElementById('mostrar').addEventListener('click', function () {
+                  const gif = document.getElementById('gif');
+                  const texto = document.getElementById('texto');
+              
+                  const mostrar = gif.style.display === 'none';
+              
+                  gif.style.display = mostrar ? 'block' : 'none';
+                  texto.style.display = mostrar ? 'block' : 'none';
+              
+                  if (mostrar) {
+                    gif.style.zIndex = '10';  // Aplica z-index solo cuando se muestra
+                  } else {
+                    gif.style.zIndex = '1';   // Limpia z-index si se oculta
+                  }
+                });
+            </script>
+            <div id="firmaDesarrolladores" style="display: none;" class="firma">
+              <h4>Análisis y Desarrollo de Software</h4>
+              <p>2618419</p>
+              <p>Andrés Felipe Arce Escobar</p>
+              <p>Wilmer Alexis Montoya Naranjo</p>
+              <img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png" alt="Icono programación" class="icono-programacion">
+          </div>
+          
+          <button id="btnFirma" class="boton-firma"> ◀ / ▶ </button>
+
+          
+          <style>
+            .firma {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+    z-index: 100;
+}
+
+.firma h4 {
+    margin: 5px 0;
+    font-weight: bold;
+}
+
+.firma p {
+    margin: 2px 0;
+    font-size: 14px;
+}
+
+.icono-programacion {
+    width: 30px;
+    height: 30px;
+    margin-top: 8px;
+}
+
+.boton-firma {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    padding: 8px 12px;
+    background-color: #00324D;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 100;
+}
+
+.boton-firma:hover {
+    background-color: #0056b3;
+}
+
+          </style>
+
+<script>
+  const btnFirma = document.getElementById('btnFirma');
+  const firma = document.getElementById('firmaDesarrolladores');
+
+  btnFirma.addEventListener('click', function () {
+      const visible = firma.style.display === 'block';
+      firma.style.display = visible ? 'none' : 'block';
+      btnFirma.textContent = visible ? '</>' : 'Ocultar';
+  });
+</script>
+
+    </body>
+</body>
+
+

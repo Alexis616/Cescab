@@ -1,0 +1,86 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+form {
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 80%;
+    margin: 100px 0 ;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    position: absolute;
+}
+
+label {
+    font-weight: bold;
+    color: #555;
+    display: block;
+    margin-top: 15px;
+}
+
+small {
+    font-weight: normal;
+    color: #888;
+}
+
+input[type="number"],
+input[type="text"],
+textarea,
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+button {
+    background-color: #39A900;
+    color: rgb(255, 255, 255);
+    padding: 12px;
+    margin-top: 20px;
+    width: 100%;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+    
+}
+
+.fila-mapeo {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+
+.alimentadores{
+    height: 30px;
+    background-color: black;
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
+    text-decoration: none;
+}
+hr{
+    height: 25px;
+}

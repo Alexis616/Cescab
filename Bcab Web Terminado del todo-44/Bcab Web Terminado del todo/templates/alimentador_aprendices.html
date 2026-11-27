@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Procesar CSVs - Aprendices</title>
+    <link rel="stylesheet" href="../static/CSS/alimentador.css">
+</head>
+<body>
+    <h2>Alimentar Tabla de Aprendices</h2>
+    
+    <div style="background-color: #e6f3ff; padding: 15px; margin: 10px 0; border-radius: 5px;">
+        <h3>Campos disponibles en la tabla Aprendices:</h3>
+        <ul>
+            <li><strong>idAprendiz</strong> - ID del aprendiz</li>
+            <li><strong>tipoDocumento</strong> - Tipo de documento</li>
+            <li><strong>numeroDocumento</strong> - Número de documento</li>
+            <li><strong>ficha</strong> - Número de ficha</li>
+            <li><strong>nombres</strong> - Nombres del aprendiz</li>
+            <li><strong>apellidos</strong> - Apellidos completos (usar si vienen juntos)</li>
+            <li><strong>apellido1</strong> - Primer apellido (se concatenará con apellido2)</li>
+            <li><strong>apellido2</strong> - Segundo apellido (se concatenará con apellido1)</li>
+            <li><strong>telefono</strong> - Número de teléfono</li>
+            <li><strong>correo_electronico</strong> - Correo electrónico</li>
+            <li><strong>estado</strong> - Estado del aprendiz</li>
+            <li><strong>juicio</strong> - Juicio evaluativo</li>
+            <li><strong>fechaInicio</strong> - Fecha de inicio</li>
+            <li><strong>fechaFin</strong> - Fecha de finalización</li>
+            <li><strong>medida_formativa</strong> - Medida formativa</li>
+        </ul>
+    </div>
+    
+    <div style="background-color: #fff3cd; padding: 15px; margin: 10px 0; border-radius: 5px;">
+        <h4>📝 Nota sobre Apellidos:</h4>
+        <p><strong>Si los apellidos vienen separados en el CSV:</strong> Use "apellido1" y "apellido2" como campos - se concatenarán automáticamente en la base de datos.</p>
+        <p><strong>Si los apellidos vienen juntos:</strong> Use directamente "apellidos" como campo.</p>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data">
+        <label for="total_cols">Número total de columnas en cada CSV:</label><br>
+        <input type="number" id="total_cols" name="total_cols" min="1" required><br><br>
+
+        <label>Asociar columna CSV con campo BD:</label><br>
+        <div id="mapeo-container">
+            <div id="contenedor-filas"></div>
+        </div><br>
+
+        <input type="hidden" name="columnas" id="columnas-hidden">
+        <button type="button" onclick="agregarFila()">Agregar Fila Manual</button>
+        <button type="button" onclick="limpiarMapeo()">Limpiar Mapeo</button><br><br>
+
+        <label for="file">Subir archivos CSV:</label><br>
+        <input type="file" name="file" accept=".csv" multiple required><br><br>
+
+        <button type="submit">Procesar Archivos</button>
+    </form>
+
+    <script>
+        function agregarFila() {
+            const container = document.getElementById('contenedor-filas');
+            const filaDiv = document.createElement('div');
+            filaDiv.style.marginBottom = '10px';
+            filaDiv.style.padding = '10px';
+            filaDiv.style.border = '1px solid #ccc';
+            filaDiv.style.borderRadius = '5px';
+            
+            filaDiv.innerHTML = `
+                <label>Columna CSV (número):</label>
+                <input type="number" class="columna-csv" min="1" required style="margin-right: 10px;">
+                <label>Campo BD:</label>
+                <select class="campo-bd" required style="margin-right: 10px;">
+                    <option value="">Seleccione campo</option>
+                    <option value="idAprendiz">idAprendiz</option>
+                    <option value="tipoDocumento">tipoDocumento</option>
+                    <option value="numeroDocumento">numeroDocumento</option>
+                    <option value="ficha">ficha</option>
+                    <option value="nombres">nombres</option>
+                    <option value="apellidos">apellidos (completos)</option>
+                    <option value="apellido1">apellido1 (para concatenar)</option>
+                    <option value="apellido2">apellido2 (para concatenar)</option>
+                    <option value="telefono">telefono</option>
+                    <option value="correo_electronico">correo_electronico</option>
+                    <option value="estado">estado</option>
+                    <option value="juicio">juicio</option>
+                    <option value="fechaInicio">fechaInicio</option>
+                    <option value="fechaFin">fechaFin</option>
+                    <option value="medida_formativa">medida_formativa</option>
+                </select>
+                <button type="button" onclick="eliminarFila(this)">Eliminar</button>
+            `;
+            
+            container.appendChild(filaDiv);
+        }
+        
+        function eliminarFila(button) {
+            button.parentElement.remove();
+        }
+        
+        function limpiarMapeo() {
+            document.getElementById('contenedor-filas').innerHTML = '';
+        }
+        
+        // Antes de enviar el formulario, recopilar el mapeo
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const filas = document.querySelectorAll('#contenedor-filas > div');
+            const mapeo = [];
+            
+            filas.forEach(fila => {
+                const columnaCSV = fila.querySelector('.columna-csv').value;
+                const campoBD = fila.querySelector('.campo-bd').value;
+                
+                if (columnaCSV && campoBD) {
+                    mapeo.push(`${columnaCSV}: ${campoBD}`);
+                }
+            });
+            
+            document.getElementById('columnas-hidden').value = mapeo.join('\n');
+        });
+        
+        // Agregar una fila automáticamente al cargar
+        window.onload = function() {
+            agregarFila();
+        };
+    </script>
+
+
+
+<div id="firmaDesarrolladores" style="display: none;" class="firma">
+    <h4>Análisis y Desarrollo de Software</h4>
+    <p>Andrés Felipe Arce Escobar</p>
+    <p>Wilmer Alexis Montoya Naranjo</p>
+    <img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png" alt="Icono programación" class="icono-programacion">
+</div>
+
+<button id="btnFirma" class="boton-firma"> ◀ / ▶ </button>
+
+
+<style>
+  .firma {
+position: fixed;
+bottom: 10px;
+right: 10px;
+background-color: #f4f4f4;
+border: 1px solid #ccc;
+padding: 15px;
+border-radius: 10px;
+box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+text-align: center;
+font-family: 'Segoe UI', sans-serif;
+z-index: 100;
+}
+
+.firma h4 {
+margin: 5px 0;
+font-weight: bold;
+}
+
+.firma p {
+margin: 2px 0;
+font-size: 14px;
+}
+
+.icono-programacion {
+width: 30px;
+height: 30px;
+margin-top: 8px;
+}
+
+.boton-firma {
+position: fixed;
+bottom: 10px;
+left: 10px;
+padding: 8px 12px;
+background-color: #00324D;
+color: white;
+border: none;
+border-radius: 8px;
+cursor: pointer;
+z-index: 100;
+width: 5%;
+}
+
+.boton-firma:hover {
+background-color: #0056b3;
+}
+
+</style>
+
+<script>
+const btnFirma = document.getElementById('btnFirma');
+const firma = document.getElementById('firmaDesarrolladores');
+
+btnFirma.addEventListener('click', function () {
+const visible = firma.style.display === 'block';
+firma.style.display = visible ? 'none' : 'block';
+btnFirma.textContent = visible ? '</>' : 'Ocultar';
+});
+</script>
+</body>
+</html>

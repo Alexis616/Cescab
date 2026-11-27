@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/CSS/instructor/recomendacion_cancelacion.css">
+    <title>Aprendices Recomendados para Cancelación</title>
+</head>
+<body>  
+    <div class="container">
+        <div class="header">
+            <h1>📋 Aprendices Recomendados para Cancelación de Matrícula</h1>
+            <p>Sistema de Gestión de Medidas Formativas - SENA</p>
+        </div>
+
+        <div class="content">
+            <div class="stats-card">
+                <h3>DE ACUERDO A PARAMETRIZACION DEL SISTEMA CESCAB, SE SUGIERE CANCELAR A LOS SIGUIENTES APRENDICES SEGÚN EL ACUERDO 009 DEL 2024</h3>
+                <div id="numeroGrandote" class="stats-number">{{ aprendices_agrupados|length }}</div>
+            </div>
+
+            <div class="table-container">
+                {% if aprendices_agrupados %}
+                <table id="tablaAprendices">
+                    <thead>
+                        <tr>
+                            <th>📋 Ficha</th>
+                            <th>🎓 Programa</th>
+                            <th>💻 Modalidad</th>
+                            <th>📄 Documento</th>
+                            <th>👤 Nombre del Aprendiz</th>
+                            <th>🔍 Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for documento, data in aprendices_agrupados.items() %}
+                        <tr>
+                            <td class="ficha">{{ data.ficha }}</td>
+                            <td class="programa">{{ data.programa }}</td>
+                            <td class="modalidad">{{ data.modalidad }}</td>
+                            <td class="documento">{{ data.documento }}</td>
+                            <td class="nombre">{{ data.nombre }}</td>
+                            <td><button onclick="document.getElementById('modal_{{ loop.index }}').showModal()" class="btn-ver-aprendices">Ver Detalles</button></td>
+                        </tr>
+
+                        <!-- Modal con información completa del aprendiz y comités -->
+                        <dialog class="miDialogo" id="modal_{{ loop.index }}">
+                            <div class="modal-header">
+                                <h3>Detalles del Aprendiz: {{ data.nombre }}</h3>
+                                <button onclick="this.closest('dialog').close()" class="btn-cerrar">✕</button>
+                            </div>
+                            
+                            <div class="modal-body">
+                                <!-- Información general del aprendiz -->
+                                <div class="aprendiz-info">
+                                    <h4 class="titulo_aprendiz">📋 Información General</h4>
+                                    <p><strong>NOMBRE:</strong> {{ data.nombre }}</p>
+                                    <p><strong>DOCUMENTO:</strong> {{ data.documento }}</p>
+                                    <p><strong>FICHA:</strong> {{ data.ficha }}</p>
+                                    <p><strong>PROGRAMA:</strong> {{ data.programa }}</p>
+                                    <p><strong>MODALIDAD:</strong> {{ data.modalidad }}</p>
+                                    <p><strong>NIVEL DE FORMACIÓN:</strong> {{ data.nivel_formacion }}</p>
+                                    <p><strong>TOTAL DE COMITÉS:</strong> {{ data.comites|length }}</p>
+                                    <hr>
+                                    
+                                    <!-- Sección de información de comités -->
+                                    {% if data.comites %}
+                                        <h4 class="titulo_aprendiz">🏛️ Información de Comités</h4>
+                                        {% for comite in data.comites %}
+                                            <div class="comite-info">
+                                                <p><strong>INSTRUCTOR:</strong> {{ comite.usuario_logueado }}</p>
+                                                <p><strong>INFO FALTA:</strong> {{ comite.nombreCapituloFalla }} - art ({{ comite.articuloFalla }})</p>
+                                                <p><strong>DESCRIPCION:</strong> {{ comite.descripcion }}</p>
+                                                <p><strong>DETALLE ART:</strong> {{ comite.informacionArticulo }}</p>
+                                                <p><strong>CLASIFICACION:</strong> {{ comite.clasificacionComite }}</p> 
+                                                <p><strong>CALIFICACION:</strong> {{ comite.calificacionComite }}</p>
+                                                <p><strong>COMPETENCIA:</strong> {{ comite.competencia }}</p>
+                                                <p><strong>RESULTADO:</strong> {{ comite.resultadoAprendizaje }}</p>
+                                                <p><strong>FICHA:</strong> {{ comite.ficha }}</p>
+                                                <p><strong>PROGRAMA:</strong> {{ comite.nombreFicha }}</p>
+                                                <p><strong>ÁREA PROGRAMA:</strong> {{ comite.areaPrograma }}</p>
+                                                <p><strong>FECHA DE QUEJA:</strong> {{ comite.fechaPresentacionQueja }}</p>
+                                                <p><strong>FECHA/LUGAR AGENDACION:</strong> {{ comite.fechaAgendacion }} - {{ comite.lugarComite }}</p>
+                                                <p><strong>ESTADO COMITE:</strong> {{ comite.estadoComite }}</p>
+                                                <p><strong>CORREOS CITADOS:</strong> {{ comite.correos }}</p>
+                                                <p><strong>DATOS DE APRENDIZ:</strong>
+                                                    <br>- <strong>NOMBRE:</strong> {{ comite.nombreAprendizCitado }}
+                                                    <br>- <strong>DOCUMENTO:</strong> {{ comite.documentoAprendizCitado }}
+                                                    <br>- <strong>ESTADO:</strong> {{ comite.estadoAprendizCitado }}
+                                                    <br>- <strong>CORREO:</strong> {{ comite.correoAprendizCitado }}
+                                                    <br>- <strong>NUMERO:</strong> {{ comite.telefonoAprendizCitado }}
+                                                </p>
+                                                {% if not loop.last %}<hr>{% endif %}
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="no-data">
+                                            <p>No hay información de comités disponible para este aprendiz.</p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </dialog>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="no-data">
+                    <div class="no-data-icon">📊</div>
+                    <h3>No hay aprendices recomendados para cancelación</h3>
+                    <p>No se encontraron aprendices que cumplan con los criterios de cancelación para este instructor.</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <a href="/home_instructor_solicitado_agendados" class="back-button">
+                ← Volver al inicio  
+            </a>
+        </div>
+    </div>
+
+    <style>
+        /* Estilos adicionales para la información de comités */
+        .comite-info {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #ffffff80;
+        }
+
+        .comite-info p {
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .comite-info strong {
+            color: var(--azul_oscuro);
+        }
+
+        /* Separar visualmente las secciones */
+        .titulo_aprendiz {
+            background: var(--azul_oscuro);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 20px 0 15px 0;
+            font-size: 1.1em;
+        }
+
+        /* Estilos mejorados para el modal */
+        .modal-body {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        /* Scroll personalizado para el modal */
+        .modal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: var(--azul_oscuro);
+            border-radius: 10px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb:hover {
+            background: var(--azul_oscuro_suave);
+        }
+
+        /* Estilos para las nuevas columnas */
+        .ficha, .programa, .modalidad, .documento, .nombre {
+            text-align: center;
+            padding: 10px 5px;
+        }
+
+        .programa {
+            text-align: left;
+            max-width: 200px;
+            word-wrap: break-word;
+        }
+
+        .modalidad {
+            font-weight: bold;
+            color: var(--azul_oscuro);
+        }
+
+        /* Ajustar el ancho de la tabla para las nuevas columnas */
+        #tablaAprendices {
+            width: 100%;
+            table-layout: auto;
+        }
+
+        #tablaAprendices th, #tablaAprendices td {
+            padding: 12px 8px;
+            vertical-align: middle;
+        }
+
+        /* Responsive para las nuevas columnas */
+        @media (max-width: 768px) {
+            .programa {
+                max-width: 150px;
+                font-size: 0.9em;
+            }
+            
+            #tablaAprendices th, #tablaAprendices td {
+                padding: 8px 4px;
+                font-size: 0.85em;
+            }
+        }
+    </style>
+
+
+<div id="firmaDesarrolladores" style="display: none;" class="firma">
+    <h4>Análisis y Desarrollo de Software</h4>
+    <p>Andrés Felipe Arce Escobar</p>
+    <p>Wilmer Alexis Montoya Naranjo</p>
+    <img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png" alt="Icono programación" class="icono-programacion">
+</div>
+
+<button id="btnFirma" class="boton-firma"> ◀ / ▶ </button>
+
+
+<style>
+  .firma {
+position: fixed;
+bottom: 10px;
+right: 10px;
+background-color: #f4f4f4;
+border: 1px solid #ccc;
+padding: 15px;
+border-radius: 10px;
+box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+text-align: center;
+font-family: 'Segoe UI', sans-serif;
+z-index: 100;
+}
+
+.firma h4 {
+margin: 5px 0;
+font-weight: bold;
+}
+
+.firma p {
+margin: 2px 0;
+font-size: 14px;
+}
+
+.icono-programacion {
+width: 30px;
+height: 30px;
+margin-top: 8px;
+}
+
+.boton-firma {
+position: fixed;
+bottom: 10px;
+left: 10px;
+padding: 8px 12px;
+background-color: #00324D;
+color: white;
+border: none;
+border-radius: 8px;
+cursor: pointer;
+z-index: 100;
+}
+
+.boton-firma:hover {
+background-color: #0056b3;
+}
+
+</style>
+
+<script>
+const btnFirma = document.getElementById('btnFirma');
+const firma = document.getElementById('firmaDesarrolladores');
+
+btnFirma.addEventListener('click', function () {
+const visible = firma.style.display === 'block';
+firma.style.display = visible ? 'none' : 'block';
+btnFirma.textContent = visible ? '</>' : 'Ocultar';
+});
+</script>
+
+</body>
+</html>

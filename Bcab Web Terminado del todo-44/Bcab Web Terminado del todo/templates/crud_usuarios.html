@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+    <link rel="stylesheet" href="../static/CSS/crud_usuarios.css">
+<head>
+    <title>CRUD Usuarios</title>
+</head>
+<body>
+    <a id="salir" href="/">Cerrar sesion ▮⇤<i class="lni lni-exit"></i></a>
+   
+
+
+    <h1>Lista de Usuarios</h1>
+     <div id="caja">
+        <a class="conten_side" href="/manual_super_user">● Manual de usuario  <i class="lni lni-book"></i></a>
+    <a id="coordinadores" href="/coordinaciones">● Gestionar Coordinadores</a>
+        <a id="conversor" href="/convertir_excel">● Conversor</a>
+        <a href="{{ url_for('alimentador.alimentador_index') }}" class="btn btn-success">● Alimentador de Base de Datos</a>
+        <a href="/cancelados">● Aprendices cancelados</a>
+        
+        
+    </div>
+    <form id="agregar" action="/agregar" method="POST">
+        <!-- Campos para agregar usuario -->
+        <input name="nombre" placeholder="Nombre" required>
+        <input name="apellido" placeholder="Apellido" required>
+        <input name="cedula" placeholder="Cédula" required>
+        <input name="correo_electronico" placeholder="Correo" required>
+        <input name="contrasena" placeholder="Contraseña" required>
+        <input name="telefono" placeholder="Teléfono" required>
+        <input name="tipo_vinculacion" placeholder="Tipo de Vinculación">
+        <input name="fecha_fin_contrato" type="date">
+        <input name="token" placeholder="Token">
+        <input name="codigo" type="number" placeholder="Código">
+        <select name="rol" id="" >
+            <option >instructor</option>
+            <option >coordinador</option>
+        </select>
+        <button type="submit">Agregar</button>
+    </form>
+   
+    
+    <form id="user" method="POST" action="/eliminar_usuarios_seleccionados" onsubmit="return confirmarEliminacion();">
+        <button type="submit" id="btnEliminarSeleccionados">Eliminar seleccionados</button>
+        <table border="1">
+            <tr>
+        
+                <th>Check</th><th>ID</th><th>Nombre</th><th>Apellido</th><th>Cédula</th>
+                <th>Correo</th><th>Teléfono</th><th>rol</th><th>Acciones</th>
+            </tr>
+            {% for usuario in usuarios %}
+            <tr>
+                <td><input type="checkbox" name="ids[]" value="{{ usuario.id }}"></td>
+                <td>{{ usuario.id }}</td>
+                <td>{{ usuario.nombre }}</td>
+                <td>{{ usuario.apellido }}</td>
+                <td>{{ usuario.cedula }}</td>
+                <td>{{ usuario.correo_electronico }}</td>
+                <td>{{ usuario.telefono }}</td>
+                <td>{{ usuario.rol }}</td>
+                <td>
+                    <a href="/editar/{{ usuario.id }}">Editar</a>
+                    <a href="/eliminar/{{ usuario.id }}" onclick="return confirm('¿Seguro?')">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </form>
+
+    <div id="firmaDesarrolladores" style="display: none;" class="firma">
+        <h4>Análisis y Desarrollo de Software</h4>
+        <p>Andrés Felipe Arce Escobar</p>
+        <p>Wilmer Alexis Montoya Naranjo</p>
+        <img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png" alt="Icono programación" class="icono-programacion">
+    </div>
+    
+    <button id="btnFirma" class="boton-firma"> ◀ / ▶ </button>
+    
+    
+    <style>
+      .firma {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+    z-index: 100;
+    }
+    
+    .firma h4 {
+    margin: 5px 0;
+    font-weight: bold;
+    }
+    
+    .firma p {
+    margin: 2px 0;
+    font-size: 14px;
+    }
+    
+    .icono-programacion {
+    width: 30px;
+    height: 30px;
+    margin-top: 8px;
+    }
+    
+    .boton-firma {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    padding: 8px 12px;
+    background-color: #00324D;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 100;
+    }
+    
+    .boton-firma:hover {
+    background-color: #0056b3;
+    }
+    
+    </style>
+    
+    <script>
+    const btnFirma = document.getElementById('btnFirma');
+    const firma = document.getElementById('firmaDesarrolladores');
+    
+    btnFirma.addEventListener('click', function () {
+    const visible = firma.style.display === 'block';
+    firma.style.display = visible ? 'none' : 'block';
+    btnFirma.textContent = visible ? '</>' : 'Ocultar';
+    });
+    </script>
+
+    
+</body>
+</html>
+
+
+
+<script>
+function seleccionarTodos(source) {
+    checkboxes = document.getElementsByName('ids[]');
+    for(let i=0, n=checkboxes.length; i<n; i++) {
+        checkboxes[i].checked = source.checked;
+    }
+}
+
+function confirmarEliminacion() {
+    const checkboxes = document.querySelectorAll('input[name="ids[]"]:checked');
+    if(checkboxes.length === 0) {
+        alert('Selecciona al menos un usuario para eliminar.');
+        return false;
+    }
+    return confirm(`¿Seguro que quieres eliminar ${checkboxes.length} usuario(s)?`);
+}
+</script>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+    <link rel="stylesheet" href="../static/CSS/coordinaciones.css">
+<head>
+    <meta charset="UTF-8">
+    <title>Coordinadores</title>
+</head>
+
+
+<script>
+    // Ocultar el mensaje después de 3 segundos
+    setTimeout(() => {
+        const msg = document.getElementById("mensaje-exito");
+        if (msg) msg.style.display = "none";
+    }, 3000);
+</script>
+
+<body>
+    {% with mensajes = get_flashed_messages() %}
+        {% if mensajes %}
+            <div id="mensaje-exito">
+                {{ mensajes[0] }}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <h2>Coordinadores</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Coordinador actual</th>
+                <th>Reemplazar por</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for coordinador in coordinadores %}
+            <tr>
+                <form method="POST" action="/reemplazar_coordinador">
+                    <td>
+                        {{ coordinador.nombre }} {{ coordinador.apellido }} <br>
+                        {{ coordinador.correo_electronico }}
+                        <input type="hidden" name="correo_actual" value="{{ coordinador.correo_electronico }}">
+                    </td>
+                    <td>
+                        <select name="nuevo_correo" required>
+                            {% for otro in coordinadores %}
+                                {% if otro.correo_electronico != coordinador.correo_electronico %}
+                                    <option value="{{ otro.correo_electronico }}">
+                                        {{ otro.nombre }} {{ otro.apellido }} ({{ otro.correo_electronico }})
+                                    </option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+                        <button type="submit">Cambiar</button>
+                    </td>
+                </form>
+
+
+
+                
+                
+
+
+            </tr>
+            {% endfor %}
+        </tbody><footer>Las fichas a las cual tiene asignadas tambien seran reemplazadas al coordinador o reemplazante   </footer>
+    </table>
+
+
+
+    <div id="firmaDesarrolladores" style="display: none;" class="firma">
+        <h4>Análisis y Desarrollo de Software</h4>
+        <p>Andrés Felipe Arce Escobar</p>
+        <p>Wilmer Alexis Montoya Naranjo</p>
+        <img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png" alt="Icono programación" class="icono-programacion">
+    </div>
+    
+    <button id="btnFirma" class="boton-firma"> ◀ / ▶ </button>
+    
+    
+    <style>
+      .firma {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+    z-index: 100;
+    }
+    
+    .firma h4 {
+    margin: 5px 0;
+    font-weight: bold;
+    }
+    
+    .firma p {
+    margin: 2px 0;
+    font-size: 14px;
+    }
+    
+    .icono-programacion {
+    width: 30px;
+    height: 30px;
+    margin-top: 8px;
+    }
+    
+    .boton-firma {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    padding: 8px 12px;
+    background-color: #00324D;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 100;
+    }
+    
+    .boton-firma:hover {
+    background-color: #0056b3;
+    }
+    
+    </style>
+    
+    <script>
+    const btnFirma = document.getElementById('btnFirma');
+    const firma = document.getElementById('firmaDesarrolladores');
+    
+    btnFirma.addEventListener('click', function () {
+    const visible = firma.style.display === 'block';
+    firma.style.display = visible ? 'none' : 'block';
+    btnFirma.textContent = visible ? '</>' : 'Ocultar';
+    });
+    </script>
+</body>
+</html>

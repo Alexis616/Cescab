@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprendices Cancelados</title>
+<link rel="stylesheet" href="../static/CSS/cancelados.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a id="volver" href="/inicio_crud">Atras</a>
+            <h1>Aprendices Cancelados</h1>
+            <p>Gestión de estados de aprendices</p>
+        </div>
+        
+        <div class="content">
+            {% if cancelados %}
+                {% if request.args.get('buscar') %}
+                    <div class="search-results-info">
+                        <strong>Resultados de búsqueda para:</strong> "{{ request.args.get('buscar') }}" 
+                        - Se encontraron <strong>{{ cancelados|length }}</strong> aprendice(s)
+                    </div>
+                {% endif %}
+                
+                <div class="stats">
+                    <h3>
+                        {% if request.args.get('buscar') %}
+                            Aprendices encontrados: <strong>{{ cancelados|length }}</strong>
+                        {% else %}
+                            Total de aprendices cancelados: <strong>{{ cancelados|length }}</strong>
+                        {% endif %}
+                    </h3>
+                </div>
+                
+                <div class="alert">
+                    <strong>Información:</strong> Aquí puedes cambiar el estado de los aprendices de "Cancelado" a "Formación".
+                </div>
+                
+                <!-- Barra de Búsqueda -->
+                <div class="search-container">
+                    <form method="GET" action="/cancelados" class="search-form">
+                        <div class="search-input-group">
+                            <input type="text" 
+                                   name="buscar" 
+                                   id="buscar"
+                                   placeholder="Buscar por nombre, apellido o número de documento..." 
+                                   value="{{ request.args.get('buscar', '') }}"
+                                   class="search-input">
+                            <button type="submit" class="btn-search">🔍 Buscar</button>
+                            {% if request.args.get('buscar') %}
+                                <a href="/cancelados" class="btn-clear">✖️ Limpiar</a>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr> 
+                                <th>Ficha</th>
+                                <th>Número de Documento</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Correo Electrónico</th>
+                                <th>Estado Actual</th>
+                                <th>Cambiar Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for aprendiz in cancelados %}
+                            <tr>
+                                <td>{{ aprendiz.ficha }}</td>
+                                <td>{{ aprendiz.numeroDocumento }}</td>
+                                <td>{{ aprendiz.nombres }}</td>
+                                <td>{{ aprendiz.apellidos }}</td>
+                                <td>{{ aprendiz.correo_electronico }}</td>
+                                <td>
+                                    <span class="estado-badge">{{ aprendiz.estado }}</span>
+                                </td>
+                                <td>
+                                    <form action="/actualizar_estado_aprendiz/{{ aprendiz.numeroDocumento }}" method="POST" class="form-container">
+                                        <select name="nuevo_estado" class="estado-select" required>
+                                            <option value="">Seleccionar...</option>
+                                            <option value="Formacion">Formación</option>
+                                            <option value="cancelado" selected>Cancelado</option>
+                                        </select>
+                                        <button type="submit" class="btn-actualizar">Actualizar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                {% if request.args.get('buscar') %}
+                    <div class="no-results">
+                        <h3>🔍 No se encontraron resultados</h3>
+                        <p>No hay aprendices cancelados que coincidan con: <strong>"{{ request.args.get('buscar') }}"</strong></p>
+                        <a href="/cancelados" class="btn-clear" style="margin-top: 15px;">Ver todos los aprendices cancelados</a>
+                    </div>
+                {% else %}
+                    <div class="no-data">
+                        <h3>No hay aprendices cancelados</h3>
+                        <p>Todos los aprendices están en estado activo.</p>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

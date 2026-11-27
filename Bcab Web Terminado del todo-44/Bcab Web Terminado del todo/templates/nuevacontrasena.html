@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/CSS/nuevacontrasena.css">
+    <link rel="icon" type="image/jpg" href="../static/img/logoSena.png"/>
+
+    <title>Codigo de verificacion</title>
+</head>
+<body>
+    <div class="contenedor">
+        <div class="recuadro">
+            <form action="/guardanueva" method="post" onsubmit="return validarContraseñas()">
+                <input type="email" name="email" id="email" hidden value="{{email}}" readonly>
+                <h2>Digite su nueva contraseña</h2>
+                <input type="password" name="contrasena1" id="contrasena1" inputmode="password"  
+                pattern="^[a-zA-Z0-9._%+$\-@]{6,10}$"
+                title="Use una una mayúscula y un caracter especial ejemplo: Ejemplo2024! "
+                tabindex="1" required>
+                <h2>Digite de nuevo su contraseña</h2>
+                <input type="password" name="contrasena2" id="contrasena2" inputmode="password" 
+                pattern="^[a-zA-Z0-9._%+$\-@]{6,10}"                "
+                title="Use una una mayúscula y un caracter especial ejemplo: Ejemplo2024! "
+                tabindex="2" required> 
+                <p id="mensajeError" style="color: rgb(105, 10, 10); display: none;">Las contraseñas no coinciden</p>
+                <button type="submit" class="enviar">Modificar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>        
+        function validarContraseñas() {
+            var contrasena1 = document.getElementById('contrasena1').value;
+            var contrasena2 = document.getElementById('contrasena2').value;
+            if (contrasena1 !== contrasena2) {
+                document.getElementById('mensajeError').style.display = 'block';
+                return false; // Evita que el formulario se envíe
+            }
+            alert('Contraseña modificada con éxito');
+            return true; // Permite que el formulario se envíe si las contraseñas coinciden
+        }
+    </script>
+</body>
+</html>
+
